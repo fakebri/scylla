@@ -17,6 +17,15 @@ from .kuaidaili_provider import KuaidailiProvider
 from .spys_me_provider import SpyMeProvider
 from .spys_one_provider import SpysOneProvider
 from .xici_provider import XiciProvider
+# fakebri edit
+from .fate0_proxy_list_provider import Fate0ProxyListProvider
+from .smallseotools_provider import SmallseotoolsProvider
+from .proxy_daily_provider import ProxyDailyProvider
+from .i_86ip_and_66ip_provider import i89ipAnd66ipProvider
+from .xiladaili_provider import XiladailiProvider
+from .proxy_scraper_com_provider import ProxyScrapeComProvider
+from .iphai_provider import IphaiProvider
+
 
 all_providers = [
     A2uProvider,
@@ -36,7 +45,14 @@ all_providers = [
     PubproxyProvider,
     RmccurdyProvider,
     RudnkhProvider,
-    TheSpeedXProvider
+    TheSpeedXProvider,
+    Fate0ProxyListProvider,
+    SmallseotoolsProvider,
+    ProxyDailyProvider,
+    i89ipAnd66ipProvider,
+    XiladailiProvider,
+    ProxyScrapeComProvider,
+    IphaiProvider
 ]
 
 # Provider references:
