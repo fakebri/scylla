@@ -13,7 +13,7 @@ delete-tag:
 	git tag --delete $(TAG); git push --delete origin $(TAG)
 assets-build:
 	make assets-clean
-	NODE_ENV=production parcel build --public-url='/assets' -d scylla/assets frontend/src/index.html
+	NODE_ENV=production npx parcel build --public-url='/assets' -d scylla/assets frontend/src/index.html
 assets-dev:
 	parcel --public-url='/assets' frontend/src/index.html
 assets-clean:
