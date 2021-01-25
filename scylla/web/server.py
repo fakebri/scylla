@@ -97,7 +97,10 @@ async def api_v1_proxies(request: Request):
     proxy_list = []
 
     for p in proxies:
-        proxy_list.append(model_to_dict(p))
+        p = model_to_dict(p)
+        p['created_at'] = p['created_at'].timestamp()
+        p['updated_at'] = p['updated_at'].timestamp()
+        proxy_list.append(p)
 
     return json({
         'proxies': proxy_list,
