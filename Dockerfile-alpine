@@ -1,17 +1,28 @@
-FROM python:3.6-alpine3.7 as build
+FROM python:3.6.12-alpine3.12 as build
 
-RUN apk add --update --no-cache g++ gcc libxslt-dev make build-base curl-dev openssl-dev
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories 
+
+RUN apk add --update --no-cache g++ gcc libxslt-dev make build-base curl-dev openssl-dev git nodejs nodejs-npm util-linux
 
 RUN mkdir -p /var/www/scylla
 WORKDIR /var/www/scylla
 
-RUN pip install scylla
+RUN cd .. \
+	&& git clone https://github.com/fakebri/scylla.git \
+	&& cd scylla/ \
+	&& pip install -r requirements.txt \
+	&& pip install setuptools wheel \
+	&& npm install --loglevel=error --registry https://registry.npm.taobao.org \
+	&& make assets-build \
+	&& python setup.py sdist bdist_wheel \
+	&& cd dist \
+	&& pip install ./scylla-1.1.7-py2.py3-none-any.whl
 
-FROM python:3.6-alpine3.7
+FROM python:3.6.12-alpine3.12
 
 LABEL maintainer="WildCat <wildcat.name@gmail.com>"
 
-RUN apk add --update --no-cache libxslt-dev
+RUN apk add --update --no-cache libxslt-dev openssl-dev curl
 
 COPY --from=build /usr/local/lib/python3.6/site-packages/ /usr/local/lib/python3.6/site-packages/
 
@@ -20,5 +31,7 @@ VOLUME /var/www/scylla
 
 EXPOSE 8899
 EXPOSE 8081
+
+ENV PUPPETEER_DOWNLOAD_HOST https://npm.taobao.org/mirrors
 
 CMD python -m scylla

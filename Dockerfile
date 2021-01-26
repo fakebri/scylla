@@ -1,13 +1,24 @@
 FROM python:3.6.5-slim as build
 
-RUN apt-get update && apt-get install -y g++ gcc libxslt-dev make libcurl4-openssl-dev build-essential
+RUN apt-get update && apt-get install -y g++ gcc libxslt-dev make libcurl4-openssl-dev build-essential git
 
 RUN apt-get install -y libssl-dev
+
 
 RUN mkdir -p /var/www/scylla
 WORKDIR /var/www/scylla
 
-RUN pip install scylla
+RUN cd .. \
+	&& git clone https://github.com/fakebri/scylla.git \
+	&& cd scylla/ \
+	&& pip install -r requirements.txt \
+	&& pip install setuptools wheel \
+	&& npm install --loglevel=error --registry https://registry.npm.taobao.org \
+	&& make assets-build \
+	&& python setup.py sdist bdist_wheel \
+	&& cd dist \
+	&& pip install ./scylla-1.1.7-py2.py3-none-any.whl
+
 
 FROM python:3.6.5-slim
 
