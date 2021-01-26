@@ -29,22 +29,29 @@ Installation
 
 ### Install with Docker (highly recommended)
 
-```bash
-docker run -d -p 8899:8899 -p 8081:8081 -v /var/www/scylla:/var/www/scylla --name scylla wildcat/scylla:latest
-```
+##### ***Using Dockerfile by yourself***
+##### **Recommend using `Dockerfile-alpine`**, I did not test the Debian-based image `Dockerfile`.
 
 ### Install directly via pip
 
+##### I didn't push to pypi, so you have to compile from source to whl and then install using pip
+
+#### Step 1 : Install from source
+
+#### Step 2 :
 ```bash
-pip install scylla
-scylla --help
-scylla # Run the crawler and web server for JSON API
+pip install setuptools wheel \ 
+    && python setup.py sdist bdist_wheel \
+	&& cd dist \
+	&& pip install ./scylla-1.1.7-py2.py3-none-any.whl
+
+python -m scylla
 ```
 
 ### Install from source
 
 ```bash
-git clone https://github.com/imWildCat/scylla.git
+git clone https://github.com/fakebri/scylla.git
 cd scylla
 
 pip install -r requirements.txt
