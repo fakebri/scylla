@@ -13,7 +13,7 @@ from scylla.database import ProxyIP
 from .base_provider import BaseProvider
 
 
-class i89ipAnd66ipProvider(BaseProvider):
+class I89ipAnd66ipProvider(BaseProvider):
 
     def parse(self, html: HTML) -> [ProxyIP]:
         ip_list: [ProxyIP] = []
